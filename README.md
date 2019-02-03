@@ -57,3 +57,27 @@ Java只支持单继承，出于对安全性的考虑。
 同步方法使用关键字 synchronized修饰方法，而同步代码块主要是修饰需要进行同步的代码，用   synchronized（object）{代码内容}进行修饰；
 ### 在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步？ ###
 监视器和锁在Java虚拟机中是一块使用的。监视器监视一块同步代码块，确保一次只有一个线程执行同步代码块。每一个监视器都和一个对象引用相关联。线程在获取锁之前不允许执行同步代码。
+### 什么是死锁 ###
+**死锁** :是指两个或两个以上的进程在执行过程中,因**争夺资源**而造成的一种**互相等待**的现象,若无**外力作用**,它们都将无法推进下去
+死锁的四个**必要条件**： 互斥条件，不剥夺条件，循环等待条件，请求与保持条件
+### 如何确保N个线程可以访问N个资源同时又不导致死锁？ ###
+多线程产生死锁需要四个条件，分别是互斥性，保持和请求，不可剥夺性还有要形成闭环，这四个条件缺一不可，只要破坏了其中一个条件就可以破坏死锁，其中最简单的方法就是线程都是以同样的顺序加锁和释放锁，也就是破坏了第四个条件。
+### Java集合类框架的基本接口有哪些？###
+总共有两大接口：Collection 和Map ，一个元素集合，一个是键值对集合； 其中List和Set接口继承了Collection接口，一个是有序元素集合，一个是无序元素集合； 而ArrayList和 LinkedList 实现了List接口，HashSet实现了Set接口，这几个都比较常用； HashMap 和HashTable实现了Map接口，并且HashTable是线程安全的，但是HashMap性能更好；
+### 什么是迭代器 ###
+迭代器是一种设计模式，它是一个对象，**它可以遍历并选择序列中的对象**，而开发人员不需要了解该序列的底层结构。迭代器通常被称为“轻量级”对象，因为创建它的代价小。terator是Java迭代器最简单的实现，为List设计的ListIterator具有更多的功能，它可以从两个方向遍历List，也可以从List中插入和删除元素。
+### Iterator和ListIterator的区别是什么？ ###
+Iterator可用来遍历Set和List集合，但是ListIterator只能用来遍历List。
+Iterator对集合只能是前向遍历，ListIterator既可以前向也可以后向。
+ListIterator实现了Iterator接口，并包含其他的功能，比如：增加元素，替换元素，获取前一个和后一个元素的索引，等等。
+### Java中的HashMap的工作原理是什么？ ###
+ashMap的底层是用hash数组和单向链表实现的 ，当调用put方法是，首先计算key的hashcode，定位到合适的数组索引，然后再在该索引上的单向链表进行循环遍历用equals比较key是否存在，如果存在则用新的value覆盖原值，如果没有则向后追加。HashMap的两个重要属性是容量capacity和加载因子loadfactor，默认值分布为16和0.75，当容器中的元素个数大于 capacity*loadfactor时，容器会进行扩容resize 为2n
+### hashmap和 hashtable 区别 ###
+1、HashMap是非线程安全的，HashTable是线程安全的。
+
+2、HashMap的键和值都允许有null值存在，而HashTable则不行。
+
+3、因为线程安全的问题，HashMap效率比HashTable的要高。
+4、Hashtable是同步的，而HashMap不是。因此，HashMap更适合于单线程环境，而Hashtable适合于多线程环境。
+
+    一般现在不建议用HashTable, ①是HashTable是遗留类，内部实现很多没优化和冗余。②即使在多线程环境下，现在也有同步的ConcurrentHashMap替代，没有必要因为是多线程而用HashTable。
